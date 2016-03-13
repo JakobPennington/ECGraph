@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2014, The Android Open Source Project
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<resources>
+    <string name="app_name">ECGraph</string>
+
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_licenses">Licenses</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_nfc">Configure NFC Tag</string>
+    <string name="title_activity_event_history">Event History</string>
+    <string name="title_activity_event_viewer">Event Viewer</string>
+    <string name="title_activity_event_map">Event Map</string>
+    <string name="title_activity_bluetooth">Bluetooth Activity</string>
+    <string name="title_activity_connect_device">Connect Device</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="written_by">Written By Jakob Pennington</string>
+
+    <string name="max_label">Max:</string>
+    <string name="min_label">Min:</string>
+    <string name="avg_label">Avg:</string>
+    <string name="bpm_initial">- bpm</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="configure_nfc">Place your device over a NFC tag to configure the tag.</string>
+    <string name="nfc_unavailable">NFC unavailable. Try turning it on in your settings.</string>
+    <string name="nfc_dialog_title">NFC Turned Off</string>
+    <string name="nfc_dialog_message">Would you like to go to Setting to turn NFC on?</string>
+    <string name="nfc_success">NFC tag successfully configured!</string>
+    <string name="nfc_not_writeable">NFC tag is not writeable.</string>
+
+    <string name="device_connect">Place your smartphone over your device to connect</string>
+    <string name="device_success">Device found</string>
+    <string name="bluetooth_connect">Connecting to your device</string>
+    <string name="bluetooth_success">Device connected</string>
+    <string name="bluetooth_failed">Connection failed</string>
+    <string name="bluetooth_unsupported">Bluetooth is not supported on your device</string>
+    <string name="bluetooth_off">Bluetooth must be switched on to connect to your device</string>
+
+    <string name="settings">Settings</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="delete_dialog_message">Delete record?</string>
+    <string name="button_view">View</string>
+    <string name="version">Version 0.9</string>
+
+</resources>
