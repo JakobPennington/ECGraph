@@ -60,7 +60,7 @@ public class BluetoothLeService extends Service {
     private static final int STATE_CONNECTED = 2;
     public int mConnectionState = STATE_DISCONNECTED;
 
-    private RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<BluetoothGattCharacteristicHelper>(8);
+    private RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<>(8);
 
     //To tell the onCharacteristicWrite call back function that this is a new characteristic,
     //not the Write Characteristic to the device successfully.
@@ -162,7 +162,7 @@ public class BluetoothLeService extends Service {
                 }
                 //WRITE a NEW CHARACTERISTIC
                 else if (status == WRITE_NEW_CHARACTERISTIC) {
-                    if ((!mCharacteristicRingBuffer.isEmpty()) && mIsWritingCharacteristic == false) {
+                    if ((!mCharacteristicRingBuffer.isEmpty()) && !mIsWritingCharacteristic) {
                         BluetoothGattCharacteristicHelper bluetoothGattCharacteristicHelper = mCharacteristicRingBuffer.next();
                         if (bluetoothGattCharacteristicHelper.mCharacteristicValue.length() > MAX_CHARACTERISTIC_LENGTH) {
 

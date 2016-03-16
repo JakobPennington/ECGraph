@@ -53,8 +53,7 @@ public class EventHistoryAdapter extends RecyclerView.Adapter<EventHistoryAdapte
          * as items seen in the RecyclerView are created, plus a few spares.
          */
         View view = mInflater.inflate(R.layout.element_event_history, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
