@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +22,7 @@ import com.jakob.ecgraph.fragments.NfcFragment;
  * @author Jakob Pennington
  * @version 1.0
  */
-public class ConnectDeviceActivity extends AppCompatActivity {
+public class ConnectDeviceActivity extends AppCompatActivity implements NfcDialogFragment.NfcDialogListener {
     private static final String TAG = "ConnectDeviceActivity";
     private NfcFragment mNfcFragment;
     private BluetoothFragment mBluetoothFragment;
@@ -92,5 +93,15 @@ public class ConnectDeviceActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_holder_connect, mBluetoothFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }

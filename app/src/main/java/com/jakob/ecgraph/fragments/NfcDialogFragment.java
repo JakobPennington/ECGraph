@@ -16,6 +16,7 @@
 
 package com.jakob.ecgraph.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -35,11 +36,28 @@ import com.jakob.ecgraph.R;
  * @version 1.0
  */
 public class NfcDialogFragment extends DialogFragment {
+    NfcDialogListener mListener;
+
+    // Implement this interface to enable callbacks to the host fragment
+    public interface NfcDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Verify that the host activity implements the callback interface
+        try {
+            mListener = (NfcDialogListener) activity;
+        } catch (ClassCastException e){
+            throw new ClassCastException(activity.toString() + " must implement NfcDialogListener");
+        }
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Build the AlertDialog
+        // Build the AlertDialog and set up button click handlers
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.nfc_dialog_title);
         builder.setMessage(R.string.nfc_dialog_message);
@@ -52,15 +70,15 @@ public class NfcDialogFragment extends DialogFragment {
                 } else {
                     startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
                 }
+                mListener.onDialogPositiveClick(NfcDialogFragment.this);
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                mListener.onDialogNegativeClick(NfcDialogFragment.this);
             }
         });
-
         return builder.create();
     }
 

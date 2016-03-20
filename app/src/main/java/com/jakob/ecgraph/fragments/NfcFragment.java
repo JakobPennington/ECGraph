@@ -22,7 +22,8 @@ import com.jakob.ecgraph.R;
 import com.jakob.ecgraph.activities.ConnectDeviceActivity;
 
 /**
- * [Activity Description]
+ * A fragment which handles connecting and writing to the ECG device's NFC, which facilitates
+ * the connection via bluetooth.
  *
  * @author Jakob Pennington
  * @version 1.0
@@ -67,7 +68,6 @@ public class NfcFragment extends Fragment {
                 mNfcMessage.setText(R.string.nfc_unavailable);
                 mNfcIcon.setImageResource(R.drawable.error);
                 ((ConnectDeviceActivity)getActivity()).showNFCDialog();
-                ((ConnectDeviceActivity)getActivity()).waitBluetooth();
             }
         }
         mDisplayRecentlyUpdated = false;

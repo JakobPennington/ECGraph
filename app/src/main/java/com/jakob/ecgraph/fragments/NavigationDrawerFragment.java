@@ -78,8 +78,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
     private static List<NavigationElement> getNavigationElementList(){
         // Set up the navigation elements in the RecyclerView
         List<NavigationElement> navigationElementList = new ArrayList<>();
-        int[] icons = {R.drawable.watch, R.drawable.nfc, R.drawable.list, R.drawable.map};
-        String[] titles = {"Connect Device", "Configure NFC Tag", "Event History", "Event Map"};
+        int[] icons = {R.drawable.watch, R.drawable.list, R.drawable.map};
+        String[] titles = {"Connect Device", "Event History", "Event Map"};
 
         // Create a list of NavigationElements to be added to the RecyclerView
         for (int i = 0; i < icons.length && i < titles.length; i++){
@@ -124,9 +124,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationAdap
         switch (itemClicked){
             case "Connect Device":
                 startActivity(new Intent(getActivity(), ConnectDeviceActivity.class));
-                break;
-            case "Configure NFC Tag":
-                startActivity(new Intent(getActivity(), NfcActivity.class));
                 break;
             case "Event History":
                 startActivity(new Intent(getActivity(), EventHistoryActivity.class));
