@@ -29,8 +29,8 @@ import com.jakob.ecgraph.R;
 
 
 /**
- * A dialog located in the NfcActivity which is displayed to the user if NFC is switched off,
- * sending the user to the NFC setting within the devices settings.
+ * A dialog located in the ConnectDeviceActivity which is displayed to the user if NFC is switched
+ * off, sending the user to the NFC setting within the devices settings.
  *
  * @author  Jakob Pennington
  * @version 1.0

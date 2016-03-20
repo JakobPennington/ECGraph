@@ -82,15 +82,6 @@
         </activity>
 
         <activity
-            android:name=".activities.NfcActivity"
-            android:label="@string/title_activity_nfc"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-
-        <activity
             android:name=".activities.EventHistoryActivity"
             android:label="@string/title_activity_event_history"
             android:parentActivityName=".activities.MainActivity">

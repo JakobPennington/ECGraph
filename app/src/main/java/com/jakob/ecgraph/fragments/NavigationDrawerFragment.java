@@ -33,7 +33,6 @@ import com.jakob.ecgraph.R;
 import com.jakob.ecgraph.activities.ConnectDeviceActivity;
 import com.jakob.ecgraph.activities.EventHistoryActivity;
 import com.jakob.ecgraph.activities.EventMapActivity;
-import com.jakob.ecgraph.activities.NfcActivity;
 import com.jakob.ecgraph.activities.SettingsActivity;
 import com.jakob.ecgraph.adapters.NavigationAdapter;
 import com.jakob.ecgraph.objects.NavigationElement;
