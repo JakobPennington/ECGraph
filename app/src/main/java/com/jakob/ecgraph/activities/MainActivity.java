@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean mStartFromNFC = false;
     private boolean mButtonMovedRight = false;
     private boolean mResolvingError = false;
-    private boolean mResumingRecoring = false;
+    private boolean mResumingRecording = false;
     private Handler mHandler = new Handler();
     private long mTimeStart = 0L;
     private String mTimerString;
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         if (mRecording) {
             // Resume the recording process
-            mResumingRecoring = true;
+            mResumingRecording = true;
             resumeRecording();
         }
     }
@@ -387,14 +388,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnected(Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
@@ -407,10 +403,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         if (mResolvingError) {
             // Already attempting to resolve an error
-            return;
         } else if (connectionResult.hasResolution()) {
             try {
                 mResolvingError = true;
@@ -540,10 +535,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             mRecordButton.moveRight(RECORD_BUTTON_DISTANCE);
             mButtonMovedRight = true;
             mStartFromNFC = false;
-        } else if (mResumingRecoring) {
+        } else if (mResumingRecording) {
             mRecordButton.moveRight(RECORD_BUTTON_DISTANCE);
             mButtonMovedRight = true;
-            mResumingRecoring = false;
+            mResumingRecording = false;
         }
     }
 

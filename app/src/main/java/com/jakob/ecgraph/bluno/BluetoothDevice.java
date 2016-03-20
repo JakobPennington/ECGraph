@@ -2,9 +2,7 @@ package com.jakob.ecgraph.bluno;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
@@ -20,15 +18,14 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jakob.ecgraph.R;
 import com.jakob.ecgraph.services.BluetoothLeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BlunoLibrary extends Fragment {
-    private final static String TAG = BlunoLibrary.class.getSimpleName();
-    protected static final int REQUEST_ENABLE_BT = 1;
+public class BluetoothDevice {
+    private final static String TAG = BluetoothDevice.class.getSimpleName();
+    public static final int REQUEST_ENABLE_BT = 1;
     private static BluetoothGattCharacteristic mSCharacteristic, mModelNumberCharacteristic, mSerialPortCharacteristic, mCommandCharacteristic;
     private BluetoothLeService mBluetoothLeService;
     private BluetoothAdapter mBluetoothAdapter;
@@ -46,11 +43,12 @@ public abstract class BlunoLibrary extends Fragment {
     public static final String CommandUUID = "0000dfb2-0000-1000-8000-00805f9b34fb";
     public static final String ModelNumberStringUUID = "00002a24-0000-1000-8000-00805f9b34fb";
 
-    public BlunoLibrary() {
-    }
+    private ConnectionResultListener mConnectionResultListener;
+    private DataEventListener mDataEventListener;
 
-    //public abstract void onSerialReceived(String theString) throws UnsupportedEncodingException;
-    protected abstract void onSerialReceived(byte[] byteArrayExtra);
+    public BluetoothDevice(Context context) {
+        mContext = context;
+    }
 
     public void serialBegin(int baud) {
         mBaudrate = baud;
@@ -75,13 +73,12 @@ public abstract class BlunoLibrary extends Fragment {
 
     public boolean onCreateProcess() {
         // Returns true if BT is supported and false if not.
-        mContext = getActivity();
         if (!initiate()) {
             return false;
         }
 
-        Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-        getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent gattServiceIntent = new Intent(mContext, BluetoothLeService.class);
+        mContext.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         return true;
     }
@@ -162,7 +159,7 @@ public abstract class BlunoLibrary extends Fragment {
                         mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
                     }
                 } else if (mSCharacteristic == mSerialPortCharacteristic) {
-                    onSerialReceived(intent.getByteArrayExtra(BluetoothLeService.ECG_DATA));
+                    mDataEventListener.onDataReceived(intent.getByteArrayExtra(BluetoothLeService.ECG_DATA));
                 }
             }
         }
@@ -207,7 +204,7 @@ public abstract class BlunoLibrary extends Fragment {
     // Scans for devices and adds them to a list
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
-        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+        public void onLeScan(final android.bluetooth.BluetoothDevice device, int rssi, byte[] scanRecord) {
             ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -217,12 +214,10 @@ public abstract class BlunoLibrary extends Fragment {
                         if (mBluetoothLeService.connect(device.getAddress())) {
                             Log.d(TAG, "Connect request success");
                             mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
-                            setText(getString(R.string.bluetooth_success));
-                            setIcon(R.drawable.done);
+                            mConnectionResultListener.onConnectionResult(true);
                         } else {
                             Log.d(TAG, "Connect request fail");
-                            setText(String.valueOf(R.string.bluetooth_failed));
-                            setIcon(R.drawable.bluetooth_off);
+                            mConnectionResultListener.onConnectionResult(false);
                         }
                     }
                 }
@@ -286,11 +281,24 @@ public abstract class BlunoLibrary extends Fragment {
         return intentFilter;
     }
 
-    protected BluetoothAdapter getBluetoothAdapter() {
+    public BluetoothAdapter getBluetoothAdapter() {
         return mBluetoothAdapter;
     }
 
-    protected abstract void setText(String message);
+    public void setConnectionResultListener(ConnectionResultListener eventListener) {
+        this.mConnectionResultListener = eventListener;
+    }
 
-    protected abstract void setIcon(int id);
+    public void setDataEventListener(DataEventListener dataEventListener){
+        this.mDataEventListener = dataEventListener;
+    }
+
+
+    public interface ConnectionResultListener {
+        void onConnectionResult(boolean result);
+    }
+
+    public interface DataEventListener {
+        void onDataReceived(byte[] data);
+    }
 }
